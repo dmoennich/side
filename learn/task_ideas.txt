@@ -1,0 +1,37 @@
+
+ADT
+---
+ - Stack
+- List 	
+- Hash table
+- BST 
+
+- define higher order function
+
+- implement a trie to store name/age pairs
+(https://www.cs.bu.edu/teaching/c/tree/trie/)
+
+
+- create getter / setter
+- use Function.prototype.bind to call a function always with certain parameters
+
+
+
+- Return values: undefined vs null value
+
+- instanceof vs typeof (-> different execution context)
+
+- == vs ===
+
+- double bang !! -> transform every expression to boolean
+
+- && and || short curcuit
+
+
+- spyon to check number of calls of a function
+// spyOn(window, "swap").andCallThrough();
+// swap.callCount ...
+// try to impl own spy (decorate function)
+
+
+- Array.prototype.splice -> modifies original array!

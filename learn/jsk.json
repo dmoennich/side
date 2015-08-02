@@ -1,0 +1,38 @@
+[
+	{
+		"title": "Types in JS",
+		"category": "Basics",
+		"task": "Create a function that returns all the primitive types of JS as an array of strings",
+		"functionId": "primTypes",
+		"solution": "basic.types.spec.js"
+	},
+	{
+		"title": "by reference/value",
+		"category": "",
+		"task": "primitives, object, String?",
+		"functionId": "",
+		"solution": ""
+	},
+	{
+		"title": "Object.create",
+		"category": "Inheritance",
+		"task": "Create a inheritance chain ...",
+		"functionId": "inhChain",
+		"solution": "object.create.spec.js"
+	},
+		{
+		"title": "Floating point math",
+		"category": "",
+		"task": "0.1 + 0.3",
+		"functionId": "",
+		"solution": ""
+	},
+	{
+		"title": "ADT vs Data Structure",
+		"category": "",
+		"task": "ADT: defines DS, e.g. possible operations; DS is a concrete solution for an ADT",
+		"functionId": "",
+		"solution": ""
+	}
+
+]

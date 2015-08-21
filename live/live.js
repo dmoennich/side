@@ -88,17 +88,11 @@ GenerationSim.prototype.calcNextState = function(alive, aliveNeighbors){
 };
 
 GenerationSim.prototype.prepare = function(){
-	
+
 	this.setCells([
 		{row: 4, col: 4, state: 1},
-		{row: 4, col: 5, state: 1},
-		{row: 4, col: 6, state: 1},
 		{row: 5, col: 4, state: 1},
-		{row: 5, col: 5, state: 1},
-		{row: 5, col: 6, state: 1},
-		{row: 6, col: 5, state: 1},
-		{row: 7, col: 5, state: 1},
-		{row: 8, col: 6, state: 1}
+		{row: 6, col: 4, state: 1}
 	]);
 
 };

@@ -35,3 +35,16 @@ ADT
 
 
 - Array.prototype.splice -> modifies original array!
+
+- Hoisting:
+
+	var name = "foo";
+
+	var bar = function(){
+	    if(name === "foo"){
+	        var name = "bar"; 
+	    }
+	    console.log(name);
+	};
+
+	bar();

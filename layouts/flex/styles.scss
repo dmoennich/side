@@ -1,0 +1,27 @@
+
+
+/* Some flex design for testing purposes */
+
+$main-background-color: #eee;
+
+
+
+
+body {
+	background-color: $main-background-color;
+}
+
+.container {
+	height: 400px;
+	border: 1px dotted black;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+
+	> * {
+		border: 1px solid green;
+		flex: 1 1 auto;
+		text-align: center;
+	}
+
+}

@@ -1,0 +1,14 @@
+/* Some flex design for testing purposes */
+body {
+  background-color: #eee; }
+
+.container {
+  height: 400px;
+  border: 1px dotted black;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; }
+  .container > * {
+    border: 1px solid green;
+    flex: 1 1 auto;
+    text-align: center; }

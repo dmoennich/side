@@ -1,68 +1,51 @@
 
 //You need to support multiple levels of nested parentheses, ex. (2 / (2 + 3.33) * 4) - -6
-	// get operands
-	// consider exp within brackets as one operand
-	// recursive call for operands in brackets
 
-//TODO punkt-vor-strich (+ keep left to right)
-// other regex: search for operators and get
-// left and right operands and make each of these
-// matches a group
-// iterate over groups and rank them regarding
-// priority: punkt-vor-strich + left to right
+
+var removeWS = function (exp) {
+	return exp.replace(/\s+/g, "");
+};
+
+// reduce "multi operators", like
+// 5 + +5 -> 5 + 5
+// 5 + -4 -> 5 - 4
+// 5 ++ ++ ++ 6 -> 5 + 6
+// 5 +++ - ++ 7 -> 5 - 7
+// 5 - -2 -> 5 + 2
+// 5 +-++ - + 7 -> 5 + 7
+// the above can be done with str.replace(regexForOperators, $1...)
+// special case is only one operand: -4, +5
+var getOpArr = function (exp) {
+	var result = /([^\*/]*)(\d+)([\*/])(\d+)(.*)/.exec(exp);	// first appearance of * or /
+	return result || /([\+-]*)(\d+)([\+-])(\d+)(.*)/.exec(exp);	// if no */, go for +-
+};
+
 
 var calc = function (exp) {
-	exp = exp.trim();
-	var opReg = /^(\d)\s?([\*\+-/])\s?(\d)(.*)?/g,
-		opRegResult = opReg.exec(exp),
-		operand1 = opRegResult[1],
-		operator = opRegResult[2],
-		operand2 = opRegResult[3],
-		operand3 = opRegResult[4],
-		result;
-	console.log("regex result:", opRegResult);
+	exp = removeWS(exp);
+	var opArr = getOpArr(exp),
+	result = doArith(opArr[2], opArr[3], opArr[4]);
+	if (opArr[1] === "" && opArr[5] === "") {
+		return result;
+	}
+	return calc(opArr[1] + result + opArr[5]);
+};
+
+var doArith = function (operand1, operator, operand2) {
+	operand1 = Number(operand1);
+	operand2 = Number(operand2);
 	switch (operator) {
 		case "+":
-			result = add(operand1, operand2);
-			break;
+			return operand1 + operand2;
 		case "-":
-			result = subtract(operand1, operand2);
-			break;
+			return operand1 - operand2;
 		case "/":
-			result = divide(operand1, operand2);
-			break;
+			return operand1 / operand2;
 		case "*":
-			result = multiply(operand1, operand2);
-			break;
+			return operand1 * operand2;
 		default:
 			throw new Error(operator + " not supported.");
 	}
-
-	if (!operand3) {
-		return result;
-	}
-
-	return calc(result + operand3);
 };
-
-
-
-var add = function (num1, num2) {
-	return Number(num1) + Number(num2);
-};
-
-var subtract = function (num1, num2) {
-	return Number(num1) - Number(num2);
-};
-
-var divide = function (num1, num2) {
-	return Number(num1) / Number(num2);
-};
-
-var multiply = function (num1, num2) {
-	return Number(num1) * Number(num2);
-};
-
-
 
 

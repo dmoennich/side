@@ -102,3 +102,37 @@ describe("shoud handle Punkt-vor-Strich", function () {
 	});
 });
 
+
+
+describe("reduceOperators should eval operator pairs", function () {
+	it("for 1++1 -> 1+1", function () {
+		expect(reduceOperators("1++1")).toEqual("1+1");
+	});
+
+	it("for 1+-1 -> 1-1", function () {
+		expect(reduceOperators("1+-1")).toEqual("1-1");
+	});
+
+	it("for 1+++1 -> 1+1", function () {
+		expect(reduceOperators("1+++1")).toEqual("1+1");
+	});
+
+	it("for 1++-1 -> 1-1", function () {
+		expect(reduceOperators("1++-1")).toEqual("1-1");
+	});
+	it("for 1+-+1 -> 1-1", function () {
+		expect(reduceOperators("1+-+1")).toEqual("1-1");
+	});
+
+	it("for 1--1 -> 1+1", function () {
+		expect(reduceOperators("1--1")).toEqual("1+1");
+	});
+	it("for 1---1 -> 1-1", function () {
+		expect(reduceOperators("1---1")).toEqual("1-1");
+	});
+});
+
+
+
+
+

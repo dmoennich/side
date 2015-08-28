@@ -6,6 +6,21 @@ var removeWS = function (exp) {
 	return exp.replace(/\s+/g, "");
 };
 
+var reduceOperators = function (exp) {
+
+	var evalOperators = function (operatorSequence) {
+		if (operatorSequence.length === 2) {
+			if (operatorSequence === "+-" || operatorSequence === "-+") {
+				return "-";
+			}
+			return "+";
+		}
+		return evalOperators(evalOperators(operatorSequence.substr(0,2)) + operatorSequence.substr(2));
+	};
+
+	return exp.replace(/[\+-]{2,}/g, evalOperators);
+};
+
 // reduce "multi operators", like
 // 5 + +5 -> 5 + 5
 // 5 + -4 -> 5 - 4

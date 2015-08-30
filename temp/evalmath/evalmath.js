@@ -18,12 +18,18 @@ var reduceOperators = function (exp) {
 		if (operatorSequence.length === 2) {
 			if (operatorSequence === "+-" || operatorSequence === "-+") {
 				return "-";
+			} else if (operatorSequence === "*+") {
+				return "*";
+			} else if (operatorSequence === "/+") {
+				return "/";
+			} else if (operatorSequence === "++" || operatorSequence === "--") {
+				return "+";
 			}
-			return "+";	// ++, --
+			return operatorSequence;	// *- and /- cases
 		}
 		return evalOperators(evalOperators(operatorSequence.substr(0,2)) + operatorSequence.substr(2));
 	};
-	return exp.replace(/[\+-]{2,}/g, evalOperators);
+	return exp.replace(/[\+-/\*]{2,}/g, evalOperators);
 };
 
 //	1. fills in zeros for unary operators, e.g. +4 -> 0+4; (-6) -> (0-6)
@@ -45,7 +51,7 @@ var getOpArr = function (exp) {
 	// decimal number: (\d+(?:\.\d+)?)
 	// ([^\*/]*?)(\d+(?:\.\d+)?)([\*/])(\d+(?:\.\d+)?)(.*)
 	// ([^\*/]*)(\d+)([\*/])(\d+)(.*)
-	var result = /([^\*/]*?)(\d+(?:\.\d+)?)([\*/])(\d+(?:\.\d+)?)(.*)/.exec(exp);	// first appearance of * or /
+	var result = /([^\*/]*?)(\d+(?:\.\d+)?)([\*/])(-?\d+(?:\.\d+)?)(.*)/.exec(exp);	// first appearance of * or /
 	
 	// ([\+-]*)(\d+(?:\.\d+)?)*([\+-])(\d+(?:\.\d+)?)+(.*)
 	// ([\+-]*)(\d*)([\+-])(\d+)(.*)
@@ -66,8 +72,8 @@ var calc = function (exp) {
 		return null;
 	}
 	exp = removeWS(exp);
-	exp = reduceOperators(exp);
 	exp = solveParenthesis(exp);
+	exp = reduceOperators(exp);
 	exp = zeroFill(exp);
 	var opArr = getOpArr(exp),
 	result = doArith(opArr[2], opArr[3], opArr[4]);

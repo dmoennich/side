@@ -1,3 +1,9 @@
+
+describe("", function () {
+
+
+
+
 describe("removeWS", function () {
 	it("should replace all white space from expression", function () {
 		expect(removeWS("1 + 3-4  *  6")).toEqual("1+3-4*6");
@@ -79,40 +85,6 @@ describe("shoud handle Punkt-vor-Strich", function () {
 	});
 });
 
-
-describe("reduceOperators should eval operator pairs", function () {
-	it("for 1++1 -> 1+1", function () {
-		expect(reduceOperators("1++1")).toEqual("1+1");
-	});
-
-	it("for 1+-1 -> 1-1", function () {
-		expect(reduceOperators("1+-1")).toEqual("1-1");
-	});
-
-	it("for 1+++1 -> 1+1", function () {
-		expect(reduceOperators("1+++1")).toEqual("1+1");
-	});
-
-	it("for 1++-1 -> 1-1", function () {
-		expect(reduceOperators("1++-1")).toEqual("1-1");
-	});
-
-	it("for 1+-+1 -> 1-1", function () {
-		expect(reduceOperators("1+-+1")).toEqual("1-1");
-	});
-
-	it("for 1--1 -> 1+1", function () {
-		expect(reduceOperators("1--1")).toEqual("1+1");
-	});
-
-	it("for 1---1 -> 1-1", function () {
-		expect(reduceOperators("1---1")).toEqual("1-1");
-	});
-
-	it("for 1.5---1+-4.0 -> 1.5-1-4.0", function () {
-		expect(reduceOperators("1.5---1+-4.0")).toEqual("1.5-1-4.0");
-	});
-});
 
 
 describe("zeroFill should add 0 to unary operators", function () {
@@ -251,5 +223,82 @@ describe("calc should handle devision x / 0", function () {
 		expect(calc("5/0")).toEqual(Infinity);
 	});
 });
+
+
+});// end big describe
+
+
+
+describe("calc should handle other operator combinations", function () {
+	it("12*-1", function () {
+		expect(calc("12*-1")).toEqual(-12);
+	});
+	it("12*+1", function () {
+		expect(calc("12*+1")).toEqual(12);
+	});
+	it("12/-1", function () {
+		expect(calc("12/-1")).toEqual(-12);
+	});
+	it("12/+1", function () {
+		expect(calc("12/+1")).toEqual(12);
+	});
+	it("12*(4-5)", function () {
+		expect(calc("12*(4-5)")).toEqual(-12);
+	});
+	it("12-(4-5)", function () {
+		expect(calc("12-(4-5)")).toEqual(13);
+	});
+});
+
+
+
+describe("reduceOperators should eval operator pairs", function () {
+	it("for 1++1 -> 1+1", function () {
+		expect(reduceOperators("1++1")).toEqual("1+1");
+	});
+
+	it("for 1+-1 -> 1-1", function () {
+		expect(reduceOperators("1+-1")).toEqual("1-1");
+	});
+
+	it("for 1+++1 -> 1+1", function () {
+		expect(reduceOperators("1+++1")).toEqual("1+1");
+	});
+
+	it("for 1++-1 -> 1-1", function () {
+		expect(reduceOperators("1++-1")).toEqual("1-1");
+	});
+
+	it("for 1+-+1 -> 1-1", function () {
+		expect(reduceOperators("1+-+1")).toEqual("1-1");
+	});
+
+	it("for 1--1 -> 1+1", function () {
+		expect(reduceOperators("1--1")).toEqual("1+1");
+	});
+
+	it("for 1---1 -> 1-1", function () {
+		expect(reduceOperators("1---1")).toEqual("1-1");
+	});
+
+	it("for 1.5---1+-4.0 -> 1.5-1-4.0", function () {
+		expect(reduceOperators("1.5---1+-4.0")).toEqual("1.5-1-4.0");
+	});
+
+	it("for 1.5/+1+-4.0 -> 1.5/1-4.0", function () {
+		expect(reduceOperators("1.5/+1+-4.0")).toEqual("1.5/1-4.0");
+	});
+	it("for 1.5*+1+-4.0 -> 1.5*1-4.0", function () {
+		expect(reduceOperators("1.5*+1+-4.0")).toEqual("1.5*1-4.0");
+	});
+	it("for 1.5*-1+-4.0 -> 1.5*-1-4.0", function () {
+		expect(reduceOperators("1.5*-1+-4.0")).toEqual("1.5*-1-4.0");
+	});
+	it("for 1.5/-1+-4.0 -> 1.5/-1-4.0", function () {
+		expect(reduceOperators("1.5/-1+-4.0")).toEqual("1.5/-1-4.0");
+	});
+});
+
+
 
 

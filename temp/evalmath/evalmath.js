@@ -1,6 +1,3 @@
-
-
-
 // remove all whitespace
 var removeWS = function (exp) {
 	return exp.replace(/\s+/g, "");
@@ -27,16 +24,9 @@ var reduceOperators = function (exp) {
 			}
 			return operatorSequence;	// *- and /- cases
 		}
-		return evalOperators(evalOperators(operatorSequence.substr(0,2)) + operatorSequence.substr(2));
+		return evalOperators(operatorSequence.slice(0,-2) + evalOperators(operatorSequence.slice(-2)));
 	};
 	return exp.replace(/[\+-/\*]{2,}/g, evalOperators);
-};
-
-//	1. fills in zeros for unary operators, e.g. +4 -> 0+4; (-6) -> (0-6)
-//	2. replaces single numbers to addition with zero, e.g. 42 -> 0+42
-var zeroFill = function (exp) {
-	exp = exp.replace(/(^|\()([-\+]\d+)/g, "$10$2");
-	return exp.replace(/^(\d+)$/, "0+$1");
 };
 
 //	creates an Array that around the expression with the highest prio
@@ -48,14 +38,8 @@ var zeroFill = function (exp) {
 //	[5] -> string after 2nd operand
 //	Example: ["1+2*3-4", "1+", "2", "*", "3", "-4"]
 var getOpArr = function (exp) {
-	// decimal number: (\d+(?:\.\d+)?)
-	// ([^\*/]*?)(\d+(?:\.\d+)?)([\*/])(\d+(?:\.\d+)?)(.*)
-	// ([^\*/]*)(\d+)([\*/])(\d+)(.*)
-	var result = /([^\*/]*?)(\d+(?:\.\d+)?)([\*/])(-?\d+(?:\.\d+)?)(.*)/.exec(exp);	// first appearance of * or /
-	
-	// ([\+-]*)(\d+(?:\.\d+)?)*([\+-])(\d+(?:\.\d+)?)+(.*)
-	// ([\+-]*)(\d*)([\+-])(\d+)(.*)
-	return result || /([\+-]*)(\d+(?:\.\d+)?)*([\+-])(\d+(?:\.\d+)?)+(.*)/.exec(exp);	// if no */, go for +-
+	var result = /([^\*/]*?)((?:^-)?\d+(?:\.\d+)?)([\*/])(-?\d+(?:\.\d+)?)(.*)/.exec(exp);	// first appearance of * or /
+	return result || /(^)((?:^-)?\d+(?:\.\d+)?)*([\+-])(\d+(?:\.\d+)?)+(.*)/.exec(exp);	// if no */, go for +-
 };
 
 var solveParenthesis = function (exp) {
@@ -67,6 +51,11 @@ var solveParenthesis = function (exp) {
 	return solveParenthesis(parentArr[1] + parentResult + parentArr[3]);
 };
 
+var isSingleValue = function (exp) {
+	return /^[-\+]?\d+(?:\.\d+)?$/.test(exp);
+};
+
+
 var calc = function (exp) {
 	if (!exp) {
 		return null;
@@ -74,7 +63,9 @@ var calc = function (exp) {
 	exp = removeWS(exp);
 	exp = solveParenthesis(exp);
 	exp = reduceOperators(exp);
-	exp = zeroFill(exp);
+	if (isSingleValue(exp)) {
+		return Number(exp);
+	}
 	var opArr = getOpArr(exp),
 	result = doArith(opArr[2], opArr[3], opArr[4]);
 	if (opArr[1] === "" && opArr[5] === "") {

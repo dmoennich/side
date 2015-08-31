@@ -1,5 +1,5 @@
 
-describe("", function () {
+describe("ALL CALC", function () {
 
 
 
@@ -87,7 +87,7 @@ describe("shoud handle Punkt-vor-Strich", function () {
 
 
 
-describe("zeroFill should add 0 to unary operators", function () {
+xdescribe("zeroFill should add 0 to unary operators", function () {
 	it("for +1", function () {
 		expect(zeroFill("+1")).toEqual("0+1");
 	});
@@ -225,32 +225,6 @@ describe("calc should handle devision x / 0", function () {
 });
 
 
-});// end big describe
-
-
-
-describe("calc should handle other operator combinations", function () {
-	it("12*-1", function () {
-		expect(calc("12*-1")).toEqual(-12);
-	});
-	it("12*+1", function () {
-		expect(calc("12*+1")).toEqual(12);
-	});
-	it("12/-1", function () {
-		expect(calc("12/-1")).toEqual(-12);
-	});
-	it("12/+1", function () {
-		expect(calc("12/+1")).toEqual(12);
-	});
-	it("12*(4-5)", function () {
-		expect(calc("12*(4-5)")).toEqual(-12);
-	});
-	it("12-(4-5)", function () {
-		expect(calc("12-(4-5)")).toEqual(13);
-	});
-});
-
-
 
 describe("reduceOperators should eval operator pairs", function () {
 	it("for 1++1 -> 1+1", function () {
@@ -300,5 +274,41 @@ describe("reduceOperators should eval operator pairs", function () {
 });
 
 
+});// end big describe
+
+
+describe("calc should handle other operator combinations", function () {
+	it("12*-1", function () {
+		expect(calc("12*-1")).toEqual(-12);
+	});
+	it("12*+1", function () {
+		expect(calc("12*+1")).toEqual(12);
+	});
+	it("12/-1", function () {
+		expect(calc("12/-1")).toEqual(-12);
+	});
+	it("12/+1", function () {
+		expect(calc("12/+1")).toEqual(12);
+	});
+	it("12*(4-5)", function () {
+		expect(calc("12*(4-5)")).toEqual(-12);
+	});
+	it("12-(4-5)", function () {
+		expect(calc("12-(4-5)")).toEqual(13);
+	});
+
+	it("12* 123/-(-5 + 2)", function () {
+		expect(calc("12* 123/-(-5 + 2)")).toEqual(492);
+	});
+	it("-5 + 2 exceeds call stack", function () {
+		expect(calc("-5 + 2")).toEqual(-3);
+	});
+});
+
+describe("", function () {
+	it("/-- reduceOp starting from the back?", function () {
+		expect(calc("12/-(5 - 8)")).toEqual(4);
+	});
+});
 
 
